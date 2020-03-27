@@ -18,3 +18,16 @@ export const getDashboardData = () => {
       .catch(err => {});
   };
 };
+
+export const getDistrictWiseData = () => {
+  return dispatch => {
+    axios
+      .get("https://api.covid19india.org/state_district_wise.json")
+      .then(res => {
+        if (res?.data) {
+          dispatch(Actions.setDistrictData(res.data));
+        }
+      })
+      .catch(err => {});
+  };
+};

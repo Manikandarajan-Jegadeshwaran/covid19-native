@@ -1,3 +1,5 @@
-import RootNavigation from "./root-navigation";
+import DashBoardNavigation from "./dashBd-navigation";
+import DrawerNavigation from "./drawer-navigation";
 
-export default RootNavigation;
+export { DashBoardNavigation };
+export default DrawerNavigation;

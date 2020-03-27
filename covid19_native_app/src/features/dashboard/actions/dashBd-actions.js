@@ -1,16 +1,17 @@
-export const SET_LOGGED_IN = "Set [Login Status] for user";
-export const SET_REGISTERED_DEVICE_STATUS =
-  "Set [Registered device status] for user";
 export const SET_DEVICE_ID = "Set [Deive Id] for Login";
+export const SET_DASH_BOARD_DATA = "Set [Dash board data] for Home page";
+export const SET_STATE_WISE_DATA = "Set [State wise data] for home page";
+export const SET_DELTAS = "Set [delta of overall count] for home page";
 import axios from "axios";
-
-export const setLoggedIn = payload => dispatch =>
-  dispatch({ type: SET_LOGGED_IN, payload });
-
-export const setRegDeviceStatus = payload => dispatch =>
-  dispatch({ type: SET_REGISTERED_DEVICE_STATUS, payload });
 
 export const setDeviceId = payload => dispatch =>
   dispatch({ type: SET_DEVICE_ID, payload });
 
+export const setDashboardData = payload => dispatch =>
+  dispatch({ type: SET_DASH_BOARD_DATA, payload });
 
+export const setStateWiseData = payload => dispatch =>
+  dispatch({ type: SET_STATE_WISE_DATA, payload });
+
+export const setDelta = payload => dispatch =>
+  dispatch({ type: SET_DELTAS, payload });
