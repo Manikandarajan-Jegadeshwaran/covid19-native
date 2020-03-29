@@ -47,15 +47,6 @@ function Graph(props) {
     });
   }
 
-  const colors = ["yellow", "blue", "#fff"];
-  const keys = ["deceased", "recovered", "confirmed"];
-  const svgs = [
-    { onPress: () => console.log("apples") },
-    { onPress: () => console.log("bananas") },
-    { onPress: () => console.log("cherries") },
-    { onPress: () => console.log("dates") }
-  ];
-
   const data = [
     Number(confirmed),
     Number(active),

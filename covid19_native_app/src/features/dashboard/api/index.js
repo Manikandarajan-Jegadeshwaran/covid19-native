@@ -8,7 +8,6 @@ export const getDashboardData = () => {
         .get("https://api.covid19india.org/data.json")
         .then(res => {
           if (res?.data) {
-            console.log("from api", res.data.cases_time_series[0]);
             dispatch(Actions.setDelta(res.data.key_values));
             dispatch(Actions.setStateWiseData(res.data.statewise));
             resolve(res.data);

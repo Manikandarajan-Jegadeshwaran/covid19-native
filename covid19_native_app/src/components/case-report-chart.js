@@ -57,7 +57,6 @@ function CaseReportChart(props) {
     ];
   }
 
-  console.log(type, caseName, getData());
   return (
     <Card
       style={{ marginRight: 20, marginTop: 10, backgroundColor: "#ffffff3c" }}
