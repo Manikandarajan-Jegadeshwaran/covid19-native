@@ -11,13 +11,13 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import { getDashboardData } from "../features/dashboard/api";
 import { useNavigation } from "@react-navigation/native";
-import { Screens } from "../utilities/constants";
+import { Screens, DashBoardScreens } from "../utilities/constants";
 import DashBoardGraph from "./dashbd-graph";
 
 function Cases(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { stateWiseData, delta, refreshData } = props;
+  const { stateWiseData, delta, refreshData, caseSeries } = props;
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -43,6 +43,10 @@ function Cases(props) {
     navigation.navigate(Screens.NATIONAL_REPORT, { stateWiseData });
   }
 
+  function goToAbout() {
+    navigation.navigate(DashBoardScreens.ABOUT);
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -62,27 +66,33 @@ function Cases(props) {
             count={confirmed}
             delta={confirmeddelta}
             style={styles.confirmed}
+            caseSeries={caseSeries}
           />
           <Tile
             name='Active'
             count={active}
             // delta={confirmeddelta}
             style={styles.active}
+            caseSeries={caseSeries}
           />
           <Tile
             name='Recovered'
             count={recovered}
             delta={recovereddelta}
             style={styles.recovered}
+            caseSeries={caseSeries}
           />
           <Tile
             name='Deceased'
             count={deaths}
             delta={deceaseddelta}
             style={styles.deceased}
+            caseSeries={caseSeries}
           />
 
-          <DashBoardGraph />
+          <DashBoardGraph
+            {...{ caseSeries, confirmed, active, recovered, deaths }}
+          />
         </ScrollView>
         <View style={styles.next}>
           <TouchableOpacity onPress={goToNationalReport}>
@@ -91,7 +101,7 @@ function Cases(props) {
         </View>
 
         <View style={styles.about}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={goToAbout}>
             <Text style={styles.aboutText}>About India Covid 19 Tracker</Text>
           </TouchableOpacity>
         </View>
@@ -101,15 +111,32 @@ function Cases(props) {
 }
 
 function Tile(props) {
+  const navigation = useNavigation();
+
+  function goToCaseReport() {
+    const option = {
+      name: props.name,
+      delta: props.delta,
+      count: props.count,
+      caseSeries: props.caseSeries
+    };
+
+    navigation.navigate(DashBoardScreens.CASES_REPORT, { option });
+  }
+
   return (
     <View style={styles.tile}>
-      <Text style={{ ...props.style, ...styles.name }}>{props.name}</Text>
-      {props.delta && (
-        <Text style={{ ...props.style, ...styles.delta }}>
-          [+{props.delta}]
-        </Text>
-      )}
-      <Text style={{ ...props.style, ...styles.count }}>{props.count}</Text>
+      <TouchableOpacity onPress={goToCaseReport}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={{ ...props.style, ...styles.name }}>{props.name}</Text>
+          {props.delta && (
+            <Text style={{ ...props.style, ...styles.delta }}>
+              [+{props.delta}]
+            </Text>
+          )}
+          <Text style={{ ...props.style, ...styles.count }}>{props.count}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -117,22 +144,26 @@ function Tile(props) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    height: "100%",
     margin: 10,
     padding: 10,
     alignItems: "center",
     justifyContent: "space-between"
   },
   appTitle: {
+    marginTop: 20,
     alignItems: "center"
   },
   header: {
     fontSize: 18,
-    letterSpacing: 2
+    letterSpacing: 2,
+    fontWeight:'600'
   },
   tiles: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 30,
+    marginTop: 20,
+    marginBottom: 20,
     width: "100%",
     alignItems: "flex-start"
   },
@@ -147,7 +178,8 @@ const styles = StyleSheet.create({
     color: "#ff073a"
   },
   active: {
-    color: "#007bff"
+    color: "#007bff",
+    marginBottom: 5
   },
   recovered: {
     color: "#28a745"
@@ -156,16 +188,16 @@ const styles = StyleSheet.create({
     color: "#6c757d"
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     textTransform: "uppercase",
     paddingBottom: 10
   },
   delta: {
     fontSize: 10,
-    paddingBottom: 10
+    paddingBottom: 5
   },
   count: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "700",
     paddingBottom: 10
   },
@@ -178,10 +210,11 @@ const styles = StyleSheet.create({
   nextIcon: { fontSize: 50, color: "grey" },
   about: {
     marginTop: 10,
+    marginBottom: 20,
     alignItems: "center"
   },
   aboutText: {
-    color: "blue"
+    color: "grey"
   }
 });
 

@@ -1,43 +1,54 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 
-import { StackedAreaChart } from "react-native-svg-charts";
+import {
+  StackedAreaChart,
+  LineChart,
+  BarChart,
+  XAxis
+} from "react-native-svg-charts";
 import * as Shape from "d3-shape";
 
-function Graph(props) {
-  const data = [
-    {
-      month: new Date(2015, 0, 1),
-      apples: 3840,
-      bananas: 1920,
-      cherries: 960,
-      dates: 400
-    },
-    {
-      month: new Date(2015, 1, 1),
-      apples: 1600,
-      bananas: 1440,
-      cherries: 960,
-      dates: 400
-    },
-    {
-      month: new Date(2015, 2, 1),
-      apples: 640,
-      bananas: 960,
-      cherries: 3640,
-      dates: 400
-    },
-    {
-      month: new Date(2015, 3, 1),
-      apples: 3320,
-      bananas: 480,
-      cherries: 640,
-      dates: 400
-    }
+function getValueArr(arr, key) {
+  return [
+    ...arr.map(each => {
+      try {
+        if (each[key]) {
+          return Number(each[key]);
+        } else {
+          return 0;
+        }
+      } catch {
+        return 0;
+      }
+    })
   ];
+}
 
-  const colors = ["#8800cc", "#aa00ff", "#cc66ff", "#eeccff"];
-  const keys = ["apples", "bananas", "cherries", "dates"];
+function Graph(props) {
+  const { caseSeries, confirmed, active, recovered, deaths } = props;
+
+  let totalData = [];
+  let dailyData = [];
+  if (caseSeries.length > 0) {
+    caseSeries.forEach(each => {
+      totalData.push({
+        confirmed: each.totalconfirmed,
+        recovered: each.totalrecovered,
+        deceased: each.totaldeceased,
+        date: new Date(each.date)
+      });
+      dailyData.push({
+        confirmed: each.dailyconfirmed,
+        recovered: each.dailyrecovered,
+        deceased: each.dailydeceased,
+        date: new Date(each.date)
+      });
+    });
+  }
+
+  const colors = ["yellow", "blue", "#fff"];
+  const keys = ["deceased", "recovered", "confirmed"];
   const svgs = [
     { onPress: () => console.log("apples") },
     { onPress: () => console.log("bananas") },
@@ -45,16 +56,43 @@ function Graph(props) {
     { onPress: () => console.log("dates") }
   ];
 
+  const data = [
+    Number(confirmed),
+    Number(active),
+    Number(recovered),
+    Number(deaths)
+  ];
+  const label = ["Confm", "Active", "Recvd", "Death"];
   return (
-    <View style={{ width: "100%" }}>
-      <StackedAreaChart
-        style={{ height: 300, paddingVertical: 16 }}
+    <View
+      style={{
+        width: "100%",
+        height:150,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop:30,
+        marginBottom: 20
+      }}
+    >
+      <BarChart
+        style={{ width: "50%", height: 150 }}
         data={data}
-        keys={keys}
-        colors={colors}
-        curve={Shape.curveNatural}
-        showGrid={false}
-        svgs={svgs}
+        svg={{ fill: "#007bff" }}
+        contentInset={{ top: 10, bottom: 10 }}
+      />
+      <XAxis
+        style={{ width: "50%" }}
+        data={data}
+        formatLabel={(value, index) => label[index]}
+        contentInset={{ left: 20, right: 20 }}
+        svg={{ fontSize: 10, fill: "black" }}
+      />
+      <XAxis
+        style={{ width: "50%", marginBottom: 10 }}
+        data={data}
+        formatLabel={(value, index) => `(${data[index]})`}
+        contentInset={{ left: 20, right: 20 }}
+        svg={{ fontSize: 10, fill: "black" }}
       />
     </View>
   );
