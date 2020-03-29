@@ -18,7 +18,6 @@ function DashBoardHome(props) {
     ({ dashBdStore }) => dashBdStore?.dashboardInfo?.delta
   );
 
-  console.log("home", stateWiseData);
 
   useEffect(() => {
     dispatch(getDashboardData());

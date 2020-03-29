@@ -12,6 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import { getDashboardData } from "../features/dashboard/api";
 import { useNavigation } from "@react-navigation/native";
 import { Screens } from "../utilities/constants";
+import DashBoardGraph from "./dashbd-graph";
 
 function Cases(props) {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ function Cases(props) {
   return (
     <>
       <View style={styles.container}>
-        <View>
+        <View style={styles.appTitle}>
           <Text style={styles.header}>INDIA COVID-19 TRACKER</Text>
           <Text>{`updated ${lastupdatedtime}`}</Text>
         </View>
@@ -65,7 +66,7 @@ function Cases(props) {
           <Tile
             name='Active'
             count={active}
-            delta={confirmeddelta}
+            // delta={confirmeddelta}
             style={styles.active}
           />
           <Tile
@@ -80,10 +81,18 @@ function Cases(props) {
             delta={deceaseddelta}
             style={styles.deceased}
           />
+
+          <DashBoardGraph />
         </ScrollView>
         <View style={styles.next}>
           <TouchableOpacity onPress={goToNationalReport}>
             <Entypo name='chevron-thin-right' style={styles.nextIcon} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.about}>
+          <TouchableOpacity>
+            <Text style={styles.aboutText}>About India Covid 19 Tracker</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -95,7 +104,11 @@ function Tile(props) {
   return (
     <View style={styles.tile}>
       <Text style={{ ...props.style, ...styles.name }}>{props.name}</Text>
-      <Text style={{ ...props.style, ...styles.delta }}>[{props.delta}]</Text>
+      {props.delta && (
+        <Text style={{ ...props.style, ...styles.delta }}>
+          [+{props.delta}]
+        </Text>
+      )}
       <Text style={{ ...props.style, ...styles.count }}>{props.count}</Text>
     </View>
   );
@@ -105,7 +118,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     margin: 10,
-    padding: 10
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  appTitle: {
+    alignItems: "center"
   },
   header: {
     fontSize: 18,
@@ -126,16 +144,16 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   confirmed: {
-    color: "#ff073a99"
+    color: "#ff073a"
   },
   active: {
-    color: "#007bff99"
+    color: "#007bff"
   },
   recovered: {
-    color: "#28a74599"
+    color: "#28a745"
   },
   deceased: {
-    color: "#6c757d99"
+    color: "#6c757d"
   },
   name: {
     fontSize: 18,
@@ -157,7 +175,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
     top: "45%"
   },
-  nextIcon: { fontSize: 50, color: "grey" }
+  nextIcon: { fontSize: 50, color: "grey" },
+  about: {
+    marginTop: 10,
+    alignItems: "center"
+  },
+  aboutText: {
+    color: "blue"
+  }
 });
 
 export default Cases;

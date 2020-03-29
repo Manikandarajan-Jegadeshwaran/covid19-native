@@ -19,12 +19,11 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName='Home'>
+      <Drawer.Navigator
+        initialRouteName='Home'
+        screenOptions={{ gestureEnabled: false }}
+      >
         <Drawer.Screen name={Screens.DASH_BOARD} component={DashBoard} />
-        <Drawer.Screen
-          name={Screens.NATIONAL_REPORT}
-          component={NationalReport}
-        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

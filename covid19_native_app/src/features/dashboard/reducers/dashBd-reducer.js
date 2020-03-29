@@ -4,6 +4,7 @@ import { setState } from "../../../utilities/helper";
 const initialState = {
   dashBoardData: [],
   stateWiseData: [],
+  timeSeriesData: [],
   delta: []
 };
 
@@ -13,6 +14,8 @@ export default (state = initialState, action) => {
       return setState(state, "dashBoardData", action);
     case Actions.SET_STATE_WISE_DATA:
       return setState(state, "stateWiseData", action);
+    case Actions.SET_TIME_SERIES:
+      return setstate(state, "timeSeriesData", action);
     case Actions.SET_DELTAS:
       return setState(state, "delta", action);
     default:

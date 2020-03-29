@@ -1,13 +1,13 @@
 import React from "react";
-import { DashBoardScreens } from "../utilities/constants";
-import { NavigationContainer } from "@react-navigation/native";
+import { DashBoardScreens, Screens } from "../utilities/constants";
+import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 import DashBoardHome from "../features/dashboard/home";
 import NationalReport from "../features/nationalReport";
 import DistrictReport from "../features/nationalReport/district-report";
-
-import { View, Text } from "react-native";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import { View, Text, TouchableOpacity } from "react-native";
 
 function Sample() {
   return (
@@ -26,18 +26,51 @@ function RootNavigation() {
     //   headerRight: props => <Logout {...props} />
     // }}
     >
-      <Stack.Screen name={DashBoardScreens.HOME} component={DashBoardHome} />
+      <Stack.Screen
+        name={DashBoardScreens.HOME}
+        component={DashBoardHome}
+        options={{
+          headerTitle: "",
+          //headerRight: props => <GotoNationalReport {...props} />
+        }}
+      />
       <Stack.Screen
         name={DashBoardScreens.NATIONAL_REPORT}
         component={NationalReport}
-        options={{ headerLeft: () => null }}
+        options={{ headerRight: props => <HomeButton {...props} /> }}
       />
       <Stack.Screen
         name={DashBoardScreens.DISTRICT_REPORT}
         component={DistrictReport}
-        options={{ headerLeft: () => null }}
+        options={{ headerRight: props => <HomeButton {...props} /> }}
       />
     </Stack.Navigator>
+  );
+}
+
+function HomeButton(props) {
+  const navigation = useNavigation();
+  return (
+    <View style={{ marginRight: 10 }}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(DashBoardScreens.HOME)}
+      >
+        <Entypo name='home' size={18} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function GotoNationalReport(props) {
+  const navigation = useNavigation();
+  return (
+    <View style={{ marginRight: 10 }}>
+      <TouchableOpacity
+        onPress={() => navigation.push(DashBoardScreens.NATIONAL_REPORT)}
+      >
+        <MaterialIcons name='navigate-next' size={25} />
+      </TouchableOpacity>
+    </View>
   );
 }
 

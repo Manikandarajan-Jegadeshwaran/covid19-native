@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, View, FlatList, StyleSheet, Alert, Text } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, Card } from "react-native-paper";
 import Wrapper from "../../components/wrapper";
 import { getDashboardData } from "../dashboard/api";
 import { Octicons } from "@expo/vector-icons";
@@ -59,6 +59,7 @@ function NationalReport(props) {
         each.recovered.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
           -1 ||
         each.delta.confirmed
+          ?.toString()
           .toLowerCase()
           .indexOf(query.toLocaleLowerCase().trim()) > -1
     );
@@ -101,7 +102,7 @@ function NationalReport(props) {
 function StateItem(props) {
   const { item } = props;
   const navigation = useNavigation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   function handleNavigation() {
     navigation.navigate(DashBoardScreens.DISTRICT_REPORT, { item });
@@ -109,14 +110,16 @@ function StateItem(props) {
   }
 
   return (
-    <View style={styles.stateItem}>
-      <View style={styles.itemRight}>
-        <TouchableOpacity onPress={handleNavigation}>
-          <StateItemTitle {...{ item }} />
-          <StateItemContent {...{ item }} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    <>
+      <Card style={styles.stateItem}>
+        <View style={styles.itemRight}>
+          <TouchableOpacity onPress={handleNavigation}>
+            <StateItemTitle {...{ item }} />
+            <StateItemContent {...{ item }} />
+          </TouchableOpacity>
+        </View>
+      </Card>
+    </>
   );
 }
 
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     width: "100%",
     //padding: 10,
     marginBottom: 10,
-    backgroundColor: "#1350581c",
+    backgroundColor: "#ffffff",
     borderRadius: 10
   },
   itemLeft: {

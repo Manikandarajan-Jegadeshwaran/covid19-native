@@ -5,7 +5,6 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import store from "./src/store";
 import Layout from "./layout";
 import DrawerNavigation from "./src/navigation";
-import * as Font from "expo-font";
 
 const theme = {
   ...DefaultTheme,
@@ -17,12 +16,6 @@ const theme = {
 };
 
 export default function App() {
-  React.useEffect(() => {
-    Font.loadAsync({
-      "roboto-light": require("./assets/font/roboto-light.ttf")
-    });
-  }, []);
-
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

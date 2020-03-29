@@ -1,17 +1,13 @@
 {
   "expo": {
-    "name": "Blank Template",
-    "slug": "covid19_native_app",
+    "name": "Covid 19 India",
+    "slug": "covid19IndiaApp",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/corona.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -20,11 +16,15 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["./assets/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.excelpoint.mobileapp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.covid19India.mobileapp",
+      "versionCode": 1
     }
   }
 }
