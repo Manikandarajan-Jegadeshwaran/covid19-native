@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Text } from "react-native";
 import withReducer from "../../store/withReducer";
 import reducer from "./reducers";
 import { DashBoardNavigation } from "../../navigation";

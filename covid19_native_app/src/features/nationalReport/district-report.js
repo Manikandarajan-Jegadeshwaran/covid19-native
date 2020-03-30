@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { Searchbar, Card } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import Wrapper from "../../components/wrapper";
-import { getDistrictWiseData } from "./api";
 
 function DistrictReport(props) {
   const { route } = props;
@@ -18,24 +17,34 @@ function DistrictReport(props) {
   );
 
   let districtInfo = null;
-  let districtNames = [];
+  let districtCollection = [];
   if (districtData && item) {
     const { state } = item;
     districtInfo = districtData[state]?.districtData;
-    districtNames = districtInfo && Object.keys(districtInfo);
+    districtInfo &&
+      Object.keys(districtInfo).forEach(districtName => {
+        districtCollection.push({
+          districtName,
+          data: districtInfo[districtName]
+        });
+      });
   }
 
   function handleSearch(text) {
     setQuery(text);
   }
 
-  function getDistrictNames() {
-    if (query === "") {
-      return districtNames;
+  function getDistricts() {
+    let data = districtCollection;
+    if (query !== "") {
+      data = districtCollection.filter(
+        each =>
+          each.districtName.toLowerCase().indexOf(query.toLowerCase()) > -1
+      );
     }
 
-    return districtNames.filter(
-      dist => dist.toLowerCase().indexOf(query.toLowerCase()) > -1
+    return data.sort(
+      (a, b) => Number(b.data.confirmed) - Number(a.data.confirmed)
     );
   }
 
@@ -50,37 +59,37 @@ function DistrictReport(props) {
         <View style={titleContainer}>
           <Text style={title}>{item.state}</Text>
           <View style={titleValue}>
-            <Text style={styles.total}>Total </Text>
             <Text style={styles.districtValue}>{item.confirmed}</Text>
           </View>
         </View>
 
         <View style={styles.listContainer}>
           <FlatList
-            data={getDistrictNames()}
-            keyExtractor={item => item}
+            style={{ height: "100%" }}
+            data={getDistricts()}
+            keyExtractor={item => item.districtName}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <DistrictItem {...{ districtName: item, districtInfo }} />
-            )}
+            renderItem={({ item }) => <DistrictItem {...{ item }} />}
           />
         </View>
+      </View>
+      <View style={{height:100}}>
+        <Text/>
       </View>
     </Wrapper>
   );
 }
 
 function DistrictItem(props) {
-  const { districtInfo, districtName } = props;
-  const district = districtInfo[districtName];
+  const { item } = props;
   return (
     <>
-      <Card style={styles.districtItem}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text>{districtName}</Text>
-          <Text>{district.confirmed}</Text>
+      <View style={styles.districtItem}>
+        <View style={{width:'100%', flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={{ fontSize: 15 }}>{item.districtName}</Text>
+          <Text style={{ fontSize: 20 }}>{item.data.confirmed}</Text>
         </View>
-      </Card>
+      </View>
     </>
   );
 }
@@ -91,12 +100,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     margin: 10,
-    width: "95%"
+    width: "95%",
+    height: "100%"
   },
   titleContainer: {
     width: "100%",
     flexDirection: "row",
     marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
     alignItems: "center",
     justifyContent: "space-between"
   },
@@ -110,24 +122,25 @@ const styles = StyleSheet.create({
   listContainer: {
     margin: 10,
     width: "100%",
-    marginBottom: 20
+    marginBottom: 10,
+    height: "100%"
   },
   districtItem: {
     flexDirection: "row",
     width: "100%",
-    padding: 10,
+    padding: 15,
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 10,
-    backgroundColor: "#ffffff",
-    borderRadius: 10
+    backgroundColor: "#004FF91c",
+    borderRadius: 5
   },
   total: {
     paddingTop: 2,
     fontSize: 15
   },
   districtValue: {
-    fontSize: 18
+    fontSize: 20
   }
 });
 

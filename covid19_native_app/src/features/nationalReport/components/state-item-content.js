@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, View, FlatList, StyleSheet, Alert, Text } from "react-native";
+import { View, StyleSheet,  Text } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 
 function StateItemContent(props) {
@@ -55,11 +55,11 @@ function StateItemContent(props) {
       paddingLeft: 10
     },
     active: {
-      color: "#007bff99",
+      color: "#007bff",
       fontWeight: "500"
     },
-    recovered: { color: "#28a74599", fontWeight: "500" },
-    deceased: { color: "#6c757d99", fontWeight: "500" },
+    recovered: { color: "#28a745", fontWeight: "500" },
+    deceased: { color: "#6c757d", fontWeight: "500" },
     indicatorContainer: {
       alignItems: "center",
       flexDirection: "row",

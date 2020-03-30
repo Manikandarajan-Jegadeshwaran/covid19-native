@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React from "react";
+import { View } from "react-native";
 
 import {
   StackedAreaChart,
@@ -54,6 +54,14 @@ function Graph(props) {
     Number(deaths)
   ];
   const label = ["Confm", "Active", "Recvd", "Death"];
+
+  console.log('barchart',data)
+
+  if(isNaN(data[0])){
+      console.log('am nan')
+      return null
+  }
+
   return (
     <View
       style={{

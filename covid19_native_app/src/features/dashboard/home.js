@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Text, StyleSheet } from "react-native";
+import { View,  StyleSheet } from "react-native";
 import withReducer from "../../store/withReducer";
 import reducer from "./reducers";
 import { getDashboardData } from "./api";

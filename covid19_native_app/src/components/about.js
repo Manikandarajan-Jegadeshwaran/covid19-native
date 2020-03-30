@@ -15,7 +15,11 @@ function About(pros) {
         </Text>
         <Text
           style={{ ...styles.text, ...styles.link }}
-          onPress={() => Linking.openURL('https://github.com/Manikandarajan-Jegadeshwaran/covid19-native')}
+          onPress={() =>
+            Linking.openURL(
+              "https://github.com/Manikandarajan-Jegadeshwaran/covid19-native"
+            )
+          }
         >
           Covid19-native Repository
         </Text>
@@ -60,9 +64,11 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   img: {
-    height: 100,
-    width: 100,
-    margin: 5
+    height: 50,
+    width: 50,
+    margin: 5,
+    backgroundColor: "#cccccc99",
+    borderRadius: 50
   },
   quote: {
     fontSize: 18,

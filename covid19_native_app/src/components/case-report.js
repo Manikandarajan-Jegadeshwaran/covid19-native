@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Wrapper from "./wrapper";
 import CaseReportChart from "./case-report-chart";
 
@@ -21,24 +21,27 @@ function CaseReport(props) {
               <Text style={styles.number}>{delta}</Text>
               <Text style={styles.totalCount}> new Cases </Text>
             </View>
-            <View>
-              <CaseReportChart
-                caseSeries={caseSeries}
-                caseName='confirmed'
-                type='total'
-                title='Total Cases'
-                color='#ff073a'
-              />
-            </View>
-            <View>
-              <CaseReportChart
-                caseSeries={caseSeries}
-                caseName='confirmed'
-                type='daily'
-                title='Daily Cases'
-                color='#ff073a'
-              />
-            </View>
+            <ScrollView style={{height:'100%'}}>
+              <View>
+                <CaseReportChart
+                  caseSeries={caseSeries}
+                  caseName='confirmed'
+                  type='total'
+                  title='Total Cases'
+                  color='#ff073a'
+                />
+              </View>
+              <View>
+                <CaseReportChart
+                  caseSeries={caseSeries}
+                  caseName='confirmed'
+                  type='daily'
+                  title='Daily Cases'
+                  color='#ff073a'
+                  
+                />
+              </View>
+            </ScrollView>
           </View>
         )}
 

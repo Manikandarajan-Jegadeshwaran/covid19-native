@@ -3,12 +3,13 @@ import { View, Text } from "react-native";
 import { Card } from "react-native-paper";
 
 import {
-  StackedAreaChart,
+  
   LineChart,
-  BarChart,
-  XAxis
+  
+  
+  YAxis,
+  Grid
 } from "react-native-svg-charts";
-import * as Shape from "d3-shape";
 
 function CaseReportChart(props) {
   const { caseSeries, type, title, caseName, color } = props;
@@ -42,10 +43,11 @@ function CaseReportChart(props) {
 
   function getData() {
     const source = type === "total" ? totalData : dailyData;
+
     return [
       ...source.map(each => {
         try {
-          if (each[caseName]) {
+          if (Number(each[caseName])) {
             return Number(each[caseName]);
           } else {
             return 0;
@@ -58,19 +60,42 @@ function CaseReportChart(props) {
   }
 
   return (
-    <Card
-      style={{ marginRight: 20, marginTop: 10, backgroundColor: "#ffffff3c" }}
+    <View
+      style={{
+        marginRight: 20,
+        marginTop: 10,
+        backgroundColor: "#004FF91c",
+        borderWidth: 0,
+        borderRadius: 5
+      }}
     >
       <Card.Title title={title} />
-      <Card.Content>
+      <Card.Content style={{ flexDirection: "row" }}>
+        <YAxis
+          data={getData()}
+          contentInset={{ top: 20, bottom: 20 }}
+          svg={{
+            fill: "grey",
+            fontSize: 10
+          }}
+          formatLabel={value => `${value}`}
+        />
         <LineChart
           data={getData()}
-          style={{ width: "100%", height: 200 }}
+          style={{
+            width: "100%",
+            height: 150,
+            alignSelf: "stretch",
+            padding: 10
+          }}
           svg={{ stroke: color, strokeWidth: 3 }}
           contentInset={{ top: 20, bottom: 20 }}
-        />
+          animate
+        >
+          <Grid />
+        </LineChart>
       </Card.Content>
-    </Card>
+    </View>
   );
 }
 

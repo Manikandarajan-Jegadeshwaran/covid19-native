@@ -4,7 +4,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import DashBoard from "../features/dashboard";
 import { Screens } from "../utilities/constants";
-import NationalReport from "../features/nationalReport";
 
 function NotificationsScreen({ navigation }) {
   return (

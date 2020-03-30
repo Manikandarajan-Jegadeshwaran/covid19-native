@@ -90,9 +90,11 @@ function Cases(props) {
             caseSeries={caseSeries}
           />
 
-          <DashBoardGraph
-            {...{ caseSeries, confirmed, active, recovered, deaths }}
-          />
+          <View style={{ width: "100%", marginBottom: 15 }}>
+            <DashBoardGraph
+              {...{ caseSeries, confirmed, active, recovered, deaths }}
+            />
+          </View>
         </ScrollView>
         <View style={styles.next}>
           <TouchableOpacity onPress={goToNationalReport}>
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     letterSpacing: 2,
-    fontWeight:'600'
+    fontWeight: "600"
   },
   tiles: {
     flexDirection: "row",

@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, View, FlatList, StyleSheet, Alert, Text } from "react-native";
+import {  View, FlatList, StyleSheet,  Text } from "react-native";
 import { Searchbar, Card } from "react-native-paper";
 import Wrapper from "../../components/wrapper";
 import { getDashboardData } from "../dashboard/api";
-import { Octicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { StateItemTitle, StateItemContent } from "./components";
@@ -42,27 +41,29 @@ function NationalReport(props) {
 
   function getStateData() {
     const data = stateData.filter(each => each.state.toLowerCase() !== "total");
-    if (query === "") {
-      return data;
+    if (query !== "") {
+      data = data.filter(
+        each =>
+          each.state.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
+            -1 ||
+          each.confirmed
+            .toLowerCase()
+            .indexOf(query.toLocaleLowerCase().trim()) > -1 ||
+          each.active.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
+            -1 ||
+          each.deaths.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
+            -1 ||
+          each.recovered
+            .toLowerCase()
+            .indexOf(query.toLocaleLowerCase().trim()) > -1 ||
+          each.delta.confirmed
+            ?.toString()
+            .toLowerCase()
+            .indexOf(query.toLocaleLowerCase().trim()) > -1
+      );
     }
 
-    return data.filter(
-      each =>
-        each.state.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
-          -1 ||
-        each.confirmed.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
-          -1 ||
-        each.active.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
-          -1 ||
-        each.deaths.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
-          -1 ||
-        each.recovered.toLowerCase().indexOf(query.toLocaleLowerCase().trim()) >
-          -1 ||
-        each.delta.confirmed
-          ?.toString()
-          .toLowerCase()
-          .indexOf(query.toLocaleLowerCase().trim()) > -1
-    );
+    return data.sort((a, b) => Number(b.confirmed) - Number(a.confirmed));
   }
 
   function handleSearch(text) {
@@ -95,6 +96,9 @@ function NationalReport(props) {
         </View>
         {/* <Button onPress={() => navigation.goBack()} title='Go back home' /> */}
       </View>
+      <View>
+        <Text />
+      </View>
     </Wrapper>
   );
 }
@@ -111,14 +115,14 @@ function StateItem(props) {
 
   return (
     <>
-      <Card style={styles.stateItem}>
+      <View style={styles.stateItem}>
         <View style={styles.itemRight}>
           <TouchableOpacity onPress={handleNavigation}>
             <StateItemTitle {...{ item }} />
             <StateItemContent {...{ item }} />
           </TouchableOpacity>
         </View>
-      </Card>
+      </View>
     </>
   );
 }
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     width: "100%",
     //padding: 10,
     marginBottom: 10,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#004FF91c",
     borderRadius: 10
   },
   itemLeft: {

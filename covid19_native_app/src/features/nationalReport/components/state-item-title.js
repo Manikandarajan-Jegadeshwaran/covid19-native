@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, View, FlatList, StyleSheet, Alert, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 
 function StateItemTitle(props) {
